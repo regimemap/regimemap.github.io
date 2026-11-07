@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works · Regime Map Embeds</title>
+<meta name="description" content="How the Regime Map embeds work: a versioned contract, a 2.6 KB loader that reserves height, Shadow DOM isolation, the iframe form, privacy and CSP.">
+<link rel="canonical" href="https://regimemap.github.io/how-it-works/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Regime Map Embeds">
+<meta property="og:title" content="How it works · Regime Map Embeds">
+<meta property="og:description" content="How the Regime Map embeds work: a versioned contract, a 2.6 KB loader that reserves height, Shadow DOM isolation, the iframe form, privacy and CSP.">
+<meta property="og:url" content="https://regimemap.github.io/how-it-works/">
+<meta property="og:image" content="https://regimemap.github.io/assets/og/og-how-it-works.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f6f6f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/plex-sans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/site.css?v=20261107">
+<script src="../assets/site.js?v=20261107" defer></script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "TechArticle",
+ "headline": "How the Regime Map embeds work",
+ "inLanguage": "en",
+ "url": "https://regimemap.github.io/how-it-works/",
+ "dateModified": "2026-11-07",
+ "author": {
+  "@type": "Organization",
+  "name": "Regime Map",
+  "url": "https://regimemap.com/"
+ },
+ "publisher": {
+  "@type": "Organization",
+  "name": "Regime Map",
+  "url": "https://regimemap.com/"
+ },
+ "proficiencyLevel": "Intermediate"
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="hd"><div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="wrap hd-in">
+    <a class="brand" href="../"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><defs><pattern id="mk4" patternUnits="userSpaceOnUse" width="3.6" height="3.6" patternTransform="rotate(45)"><rect class="mh1" width="3.6" height="3.6"/><rect class="mh2" x="2.2" width="1.4" height="3.6"/></pattern></defs><polygon class="m1" points="2,7 11,4 11,26 2,29"/><polygon points="11,4 21,7 21,29 11,26" fill="url(#mk4)"/><polygon class="m3" points="21,7 30,4 30,26 21,29"/></svg><b>Regime Map</b><span>Embeds</span></a>
+    <nav aria-label="Main"><ul class="nav"><li><a href="../configurator/">Configurator</a></li><li><a href="../how-it-works/" aria-current="page">How it works</a></li><li><a href="../accessibility/">Accessibility</a></li><li><a href="../languages/">Languages</a></li><li><a href="../use-cases/">Use cases</a></li></ul></nav>
+    <ul class="hd-ext"><li><a href="https://github.com/regimemap/regimemap-embed-examples">GitHub ↗</a></li><li><a href="https://regimemap.com/">regimemap.com ↗</a></li></ul>
+    <details class="menu"><summary>Menu</summary><nav class="menu-panel" aria-label="Main (mobile)"><ul><li><a href="../">Home</a></li><li><a href="../configurator/">Configurator</a></li><li><a href="../how-it-works/" aria-current="page">How it works</a></li><li><a href="../accessibility/">Accessibility</a></li><li><a href="../languages/">Languages</a></li><li><a href="../use-cases/">Use cases</a></li></ul><ul><li><a href="https://github.com/regimemap/regimemap-embed-examples">GitHub ↗</a></li><li><a href="https://regimemap.com/">regimemap.com ↗</a></li></ul></nav></details>
+  </div>
+</header>
+<main id="main"><div class="wrap">
+<header class="page-h"><span class="label">How it works</span><h1>Three lines of HTML, and what they do</h1><p>A versioned contract, a small loader, Shadow DOM isolation and an iframe fallback. No cookies, no third parties.</p></header>
+<div class="doc"><nav class="toc" aria-labelledby="toc-h"><span class="label" id="toc-h">On this page</span><ol><li><a href="#contract">A versioned contract</a></li><li><a href="#fallback">The no-JavaScript fallback</a></li><li><a href="#loading">Loading without layout shift</a></li><li><a href="#size">Small on purpose</a></li><li><a href="#shadow">Shadow DOM isolation</a></li><li><a href="#styles">Stylesheets</a></li><li><a href="#iframe">The iframe form</a></li><li><a href="#map">Products, zoom and search</a></li><li><a href="#languages">39 languages</a></li><li><a href="#credit">The credit-line check</a></li><li><a href="#privacy">Privacy</a></li><li><a href="#csp">Content-Security-Policy</a></li><li><a href="#spa">Single-page apps</a></li><li><a href="#react">React</a></li></ol></nav>
+<article class="prose">
+<h2 id="contract">A versioned contract</h2>
+<p>The three lines you paste are a contract between your page and Regime Map: a <code>&lt;div&gt;</code> whose <code>data-*</code> attributes say what to show, a credit line in your own HTML, and one script tag. Everything lives under <code>/embed/v1/</code>, and inside v1 one rule holds: code that was pasted once keeps working. New options arrive as new attributes with defaults. <code>data-product</code>, which picks the product shown first, was added after launch; a map pasted on day one, without it, simply opens on online casino and still offers all five products.</p>
+<p>A change that would break pasted code would ship under a new path, <code>/embed/v2/</code>, and v1 pages would keep their behaviour. If an embed is ever retired or switched off on a site, it shows a short card in its own frame. It never leaves a blank box and never redirects your page.</p>
+<figure class="wide"><svg class="dia" viewBox="0 0 760 300" role="img" aria-labelledby="d1t"><title id="d1t">The pasted markup: a placeholder div with fallback text, the credit line, and the versioned loader script.</title>
+<rect class="bx" x="24" y="24" width="440" height="252" rx="4"/><text class="m" x="44" y="56">&lt;div data-regimemap="map" …&gt;</text><text class="t2" x="60" y="82">Interactive map: gambling regulation</text><text class="t2" x="60" y="100">by country.</text><text class="m" x="44" y="124">&lt;/div&gt;</text>
+<rect class="acc" x="36" y="38" width="416" height="96" rx="3" fill-opacity="0.35"/>
+<text class="m" x="44" y="168">&lt;p&gt;Map: &lt;a href="…"&gt;Regime Map&lt;/a&gt;&lt;/p&gt;</text><rect class="dash" x="36" y="148" width="416" height="32" rx="3"/>
+<text class="ma" x="44" y="228">&lt;script async src="…/embed/v1/embed.js"&gt;</text><rect class="dash" x="36" y="208" width="416" height="32" rx="3"/>
+<path class="ln" d="M464 86 H520"/><path class="ln" d="M464 164 H520"/><path class="ln" d="M464 224 H520"/>
+<text class="t" x="530" y="80">Placeholder + fallback</text><text class="t2" x="530" y="98">Read if JavaScript never runs</text>
+<text class="t" x="530" y="158">Credit line</text><text class="t2" x="530" y="176">Your HTML, your type</text>
+<text class="t" x="530" y="218">Versioned contract</text><text class="t2" x="530" y="236">pasted v1 code keeps working</text></svg><figcaption>The three parts of the snippet.</figcaption></figure>
+<div class="code"><div class="code-h"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="fn">index.html</span><button class="copy" type="button" data-copy="#code-1"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="idle">Copy</span><span class="ok">Copied</span><span class="sr sr-live" aria-live="polite"></span></button></div><pre><code id="code-1"><span class="t-pun">&lt;</span><span class="t-tag">div</span> <span class="t-attr">data-regimemap</span><span class="t-pun">=</span><span class="t-str">&quot;map&quot;</span> <span class="t-attr">data-lang</span><span class="t-pun">=</span><span class="t-str">&quot;en&quot;</span> <span class="t-attr">data-region</span><span class="t-pun">=</span><span class="t-str">&quot;world&quot;</span> <span class="t-attr">data-theme</span><span class="t-pun">=</span><span class="t-str">&quot;light&quot;</span><span class="t-pun">&gt;</span>Interactive map: gambling regulation by country.<span class="t-pun">&lt;/</span><span class="t-tag">div</span><span class="t-pun">&gt;</span>
+<span class="t-pun">&lt;</span><span class="t-tag">p</span><span class="t-pun">&gt;</span>Map: <span class="t-pun">&lt;</span><span class="t-tag">a</span> <span class="t-attr">href</span><span class="t-pun">=</span><span class="t-str">&quot;https://regimemap.com/gambling-regulation-map/&quot;</span><span class="t-pun">&gt;</span>Regime Map<span class="t-pun">&lt;/</span><span class="t-tag">a</span><span class="t-pun">&gt;</span><span class="t-pun">&lt;/</span><span class="t-tag">p</span><span class="t-pun">&gt;</span>
+<span class="t-pun">&lt;</span><span class="t-tag">script</span> <span class="t-attr">async</span> <span class="t-attr">src</span><span class="t-pun">=</span><span class="t-str">&quot;https://regimemap.com/embed/v1/embed.js&quot;</span> <span class="t-attr">referrerpolicy</span><span class="t-pun">=</span><span class="t-str">&quot;no-referrer&quot;</span><span class="t-pun">&gt;</span><span class="t-pun">&lt;/</span><span class="t-tag">script</span><span class="t-pun">&gt;</span></code></pre></div>
+<h2 id="fallback">The no-JavaScript fallback</h2>
+<p>The sentence inside the <code>&lt;div&gt;</code> is what a reader sees when scripts are blocked, and what a crawler reads. With the credit line under it, it says what the embed is and where it comes from, so the page still makes sense without the map. The sentence is in the embed’s language, like the rest of the code: “Interaktive Karte: Glücksspielregulierung nach Ländern.” in German, for example. It carries no link of its own, because the credit line already links.</p>
+<h2 id="loading">Loading without layout shift</h2>
+<p>The loader is 2.6 KB and loads asynchronously, so it never holds up your page. The first thing it does is reserve each embed’s height: a map from its region’s proportions, a card from its usual height. Your text doesn’t jump when the embed arrives. Then it waits. Only when an embed comes within 200 px of the viewport does the loader fetch the renderer and the data. A map in the footer of a long article costs the reader 2.6 KB until they scroll down to it.</p>
+<p>The loader finds out where it was loaded from by reading its own <code>&lt;script src&gt;</code>, so the same file works without configuration. It also understands common language variants: <code>nb</code> and <code>nn</code> give Norwegian, <code>zh-TW</code> and <code>zh-HK</code> give Traditional Chinese, and an unknown code falls back to English.</p>
+<figure class="wide"><svg class="dia" viewBox="0 0 760 250" role="img" aria-labelledby="d2t"><title id="d2t">Loading timeline: the page renders, the 2.6 KB loader reserves height, then the map loads only when it nears the viewport.</title>
+<path class="ln" d="M40 200 H720"/><path class="ar" d="M720 195 L730 200 L720 205 Z"/><text class="t2" x="660" y="224">time</text>
+<rect class="bx2" x="40" y="40" width="190" height="44" rx="3"/><text class="t" x="54" y="60">Host page renders</text><text class="t2" x="54" y="76">your HTML and CSS</text>
+<rect class="acc" x="200" y="100" width="150" height="44" rx="3"/><text class="t" x="214" y="120">Loader, 2.6 KB</text><text class="t2" x="214" y="136">reserves the height</text>
+<rect class="bx" x="380" y="40" width="160" height="44" rx="3"/><text class="t" x="394" y="60">Reader scrolls</text><text class="t2" x="394" y="76">embed nears viewport</text>
+<rect class="acc" x="520" y="100" width="190" height="44" rx="3"/><text class="t" x="534" y="120">Map, about 46 KB</text><text class="t2" x="534" y="136">or card, about 8 KB</text>
+<path class="dash" d="M200 150 V200"/><path class="dash" d="M520 150 V200"/><text class="m" x="206" y="190">0 layout shift</text><text class="m" x="526" y="190">lazy</text></svg><figcaption>Nothing heavy loads until the reader gets close.</figcaption></figure>
+<div class="callout" data-kind="Note"><b>Several embeds on one page</b><p>One loader serves them all, and they share their requests: two maps and three cards on a page fetch each file once. Pasting the script tag twice is harmless; the second copy only scans the page again. Each embed still waits for its own turn near the viewport.</p></div>
+<h2 id="size">Small on purpose</h2>
+<p>The embeds are plain ES5 with no framework, no dependencies and no web fonts; they use the reader’s system fonts. The renderers have content-hashed file names and are cached for a year. The loader, cached for an hour, names the current pair, and older renderers stay available, so a page that still holds an old loader finds its files. The words travel in the data file, not in the renderer: one renderer serves all 39 languages and stays cacheable.</p>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Piece</th><th scope="col">Gzipped</th></tr></thead><tbody><tr><td>Loader</td><td>2.6 KB</td></tr><tr><td>Map renderer, world geometry included</td><td>about 41 KB</td></tr><tr><td>Map data, one language</td><td>3.1–4.3 KB</td></tr><tr><td>Card renderer</td><td>about 5 KB</td></tr><tr><td>One country’s data</td><td>about 1 KB</td></tr></tbody></table></div>
+<p>Together that is about 46 KB for a map and about 8 KB for a card. The country rows are compact: the code, the name, the dossier path and one letter per product, plus the labels of a lawful exception where there is one.</p>
+<h2 id="shadow">Shadow DOM isolation</h2>
+<p>The script form draws each embed inside an open shadow root. Its first rule is <code>:host { all: initial; display: block }</code>, and from there it sets every property it relies on: font, line height, colours, box sizing. Your theme’s CSS can’t reach in, and nothing leaks out. We test it against a page with hostile rules on <code>div</code>, <code>a</code>, <code>table</code>, <code>svg</code>, <code>button</code> and <code>*</code>.</p>
+<p>The embed adds nothing to your page outside its shadow root. Not a style tag, not a link, not a wrapper.</p>
+<figure class="wide"><svg class="dia" viewBox="0 0 760 260" role="img" aria-labelledby="d3t"><title id="d3t">Shadow DOM isolation: host page styles stop at the shadow root, and the embed's styles stay inside it.</title>
+<rect class="bx2" x="24" y="24" width="712" height="212" rx="4"/><text class="t" x="44" y="52">Your page</text><text class="m" x="44" y="74">h2 { color: red } p { font: 20px serif }</text>
+<rect class="bx" x="300" y="64" width="410" height="150" rx="4"/><text class="t" x="320" y="92">#shadow-root</text><text class="ma" x="320" y="114">:host { all: initial }</text><text class="t2" x="320" y="136">Styles as a constructable stylesheet,</text><text class="t2" x="320" y="154">with a &lt;link&gt; fallback</text>
+<rect class="s1" x="320" y="174" width="40" height="18"/><rect class="s2" x="364" y="174" width="40" height="18"/><rect class="s4" x="408" y="174" width="40" height="18"/><rect class="s5" x="452" y="174" width="40" height="18"/>
+<path class="ln" d="M160 120 H292"/><path class="ln" d="M282 112 L298 128 M282 128 L298 112" style="stroke-width:2"/><text class="t2" x="160" y="110">host CSS stops here</text></svg><figcaption>Your styles stop at the shadow root.</figcaption></figure>
+<h2 id="styles">Stylesheets without style attributes</h2>
+<p>The embed’s CSS arrives as a constructable stylesheet, adopted by each shadow root. Where a browser doesn’t support that, a <code>&lt;link&gt;</code> to the embed’s stylesheet inside the shadow root takes over. There is no <code>style=""</code> attribute anywhere: sizes, the map’s colours and its patterns are set through the CSSOM. A page with a strict <code>style-src</code>, or <code>style-src-attr 'none'</code>, still renders it.</p>
+<p>Every file is also plain ASCII, with non-ASCII characters written as escapes. A script without a declared charset is decoded in the host page’s encoding, and an early renderer that carried raw UTF-8 failed on pages in windows-1252 or Shift_JIS. The build now refuses to write any byte above 127, and the embeds are tested on pages declared UTF-8, windows-1252, Shift_JIS and nothing at all.</p>
+<h2 id="iframe">The iframe form</h2>
+<p>Some platforms remove scripts from posts. For them, the configurator writes an <code>&lt;iframe&gt;</code> that shows the same embed from <code>regimemap.com/embed/v1/frame/</code>, with <code>loading="lazy"</code> and <code>referrerpolicy="origin"</code>. A map frame keeps a 16:10 shape with a 420 px minimum, because at 320 px wide the proportion alone would leave no room for the tabs and the legend. A card frame gets the height the configurator measures for that country and language at 360 px wide, so a phone never cuts it off; in a wider column there may be some space below the card, and in a narrower one the frame scrolls inside instead of clipping.</p>
+<figure class="wide"><svg class="dia" viewBox="0 0 760 230" role="img" aria-labelledby="d4t"><title id="d4t">Script form versus iframe form.</title>
+<rect class="bx" x="24" y="24" width="344" height="182" rx="4"/><text class="t" x="44" y="54">Script form</text><text class="m" x="44" y="80">&lt;div data-regimemap&gt; + embed.js</text>
+<text class="t2" x="44" y="112">Height follows the content</text><text class="t2" x="44" y="134">Inherits nothing, changes nothing</text><text class="t2" x="44" y="156">Several embeds share one loader</text><text class="ma" x="44" y="186">recommended</text>
+<rect class="bx" x="392" y="24" width="344" height="182" rx="4"/><text class="t" x="412" y="54">iframe form</text><text class="m" x="412" y="80">&lt;iframe src="…/embed/v1/frame/…"&gt;</text>
+<text class="t2" x="412" y="112">For sites that strip scripts</text><text class="t2" x="412" y="134">Height set in the code you copy</text><text class="t2" x="412" y="156">Card scrolls inside if it’s too short</text><text class="m" x="412" y="186">loading="lazy"</text></svg><figcaption>The two forms look the same to readers.</figcaption></figure>
+<h2 id="map">Five products, zoom and search</h2>
+<p>The data carries all five statuses for every country, so switching product is a redraw, not a request. The product tabs are real tabs, one keyboard stop with the arrow keys between them, and where five don’t fit they become a menu that names the product shown. The title, the legend with its counts, the table view, the tooltips and the search all follow the product on screen. When a site sets <code>data-product</code>, that choice holds while the data loads, so readers never see online casino flash first.</p>
+<p>Zoom is buttons and keys only: +, − and Reset, or the same keys while the map has focus, in steps of 1.6× up to 8×. There is no wheel listener and no pinch handling, so your page scrolls and zooms the way your readers expect. Small states are drawn as dots, spread apart with leader lines. A touch picks the nearest dot within 22 px, a 44 px target, while a mouse gets 10 px, because at 22 px the dots of Central Europe covered most of Germany. “Find a country” folds case and accents, including letters such as ł, ı, ø and ß, so “wlochy” finds Włochy.</p>
+<p>The shapes come from Natural Earth at 1:50m, simplified so that neighbours share their borders exactly, in a Miller projection. Borders follow Ukraine’s position; for example, Crimea is shown as part of Ukraine. Northern Ireland is its own shape, because its rules differ from Great Britain’s.</p>
+<h2 id="languages">39 languages</h2>
+<p>Every word an embed shows is in its data file, in that language: the tabs, the legend, the tooltips, the search, the dates and the card. Dates are written on the server, because a browser may lack date data for Georgian or Armenian. Joined phrases use each language’s own punctuation: French puts a space before the colon, and Japanese and Chinese use the full-width colon with no space after it.</p>
+<p>The table view promises an alphabetical order, so rows are sorted with each language’s own collation rules on the server, and Japanese names by their kana reading. A browser’s built-in collation is no reference here: some browsers ship trimmed collation data without Albanian, Kazakh or Azerbaijani rules. The code you paste follows the language too. The configurator writes the fallback sentence, the iframe title and the first word of the credit line in the embed’s language; the link text stays “Regime Map”.</p>
+<h2 id="credit">The credit-line check</h2>
+<p>The credit line is your own HTML, outside anything the embed draws: a real link in your markup, which you may mark <code>rel="nofollow"</code>. The embed looks for it in its parent element or the next two siblings. A hidden or invisible link doesn’t count; the wording doesn’t matter, so any language works.</p>
+<p>If no credit is found, the embed shows its own credit bar inside its frame. It never adds a link to your page: a widget that injects links into other people’s pages is what search engines call link spam. Every link the embed itself draws opens in a new tab with <code>rel="nofollow noopener"</code>.</p>
+<h2 id="privacy">Privacy</h2>
+<ul><li>No cookies, and nothing stored in the reader’s browser.</li><li>Nothing loaded from any other website.</li><li>Readers’ IP addresses are not logged.</li></ul>
+<p>Regime Map wants to know where its embeds appear, to credit real uses and to switch off spam sites, but not who reads them. After an embed renders, it sends one small notice: the page’s host and path, without query string or fragment, and whether the credit is present. It goes as a POST body rather than in a URL, so the page address never sits in an access log next to an IP address, and every request the embed makes says <code>no-referrer</code>. The notice is a claim, not proof: before a site is switched off, its page is fetched and checked for the embed and the credit.</p>
+<p>A content delivery network can add a cookie on the way out, even when the embed sets none. The script form only loads JavaScript and JSON, which a CDN leaves alone. The iframe page is sent with <code>no-transform</code>, which tells the CDN to deliver it as it is, and both iframe forms, map and card, were checked in a clean browser profile from another site: no cookie, no extra request.</p>
+<h2 id="csp">Content-Security-Policy</h2>
+<p>If your site sends a CSP, allow <code>https://regimemap.com</code> in these directives:</p>
+<div class="code"><div class="code-h"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="fn">Content-Security-Policy</span><button class="copy" type="button" data-copy="#code-2"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="idle">Copy</span><span class="ok">Copied</span><span class="sr sr-live" aria-live="polite"></span></button></div><pre><code id="code-2">script-src  'self' https://regimemap.com;
+connect-src 'self' https://regimemap.com;
+style-src   'self' https://regimemap.com;
+frame-src   https://regimemap.com;</code></pre></div>
+<p><code>script-src</code> lets the loader and renderer run, <code>connect-src</code> lets them fetch the data and send the notice, and <code>style-src</code> covers the stylesheet fallback. <code>frame-src</code> is needed only for the iframe form. Because the embed never writes a <code>style</code> attribute, you don’t need <code>'unsafe-inline'</code>.</p>
+<h2 id="spa">Single-page apps</h2>
+<p>The loader scans the page once, when it runs. If your app adds an embed later, ask it to scan again. <code>window.RegimeMapEmbed</code> is the loader’s only global:</p>
+<div class="code"><div class="code-h"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="fn">app.js</span><button class="copy" type="button" data-copy="#code-3"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="idle">Copy</span><span class="ok">Copied</span><span class="sr sr-live" aria-live="polite"></span></button></div><pre><code id="code-3"><span class="t-com">// after the new &lt;div data-regimemap&gt; is in the DOM</span>
+<span class="t-kw">window</span>.RegimeMapEmbed.scan();</code></pre></div>
+<p>An element is drawn once. To change its options, replace the element rather than editing its attributes.</p>
+<h2 id="react">React</h2>
+<p>In React, Next.js and similar frameworks, a small hook loads the script if it isn’t there yet and scans after every mount. This is a shortened version of the component in the <a href="https://github.com/regimemap/regimemap-embed-examples">examples repository</a>, which also has the country card and the credit line in other languages:</p>
+<div class="code"><div class="code-h"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="fn">RegimeMap.jsx</span><button class="copy" type="button" data-copy="#code-4"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span class="idle">Copy</span><span class="ok">Copied</span><span class="sr sr-live" aria-live="polite"></span></button></div><pre><code id="code-4">import { useEffect } from 'react';
+
+const SRC = 'https://regimemap.com/embed/v1/embed.js';
+
+// The loader scans the page once. In an app, scan again after every mount.
+function useRegimeMapLoader(deps) {
+  useEffect(() =&gt; {
+    if (window.RegimeMapEmbed) { window.RegimeMapEmbed.scan(); return; }
+    if (document.querySelector(`script[src="${SRC}"]`)) return; // still loading: it scans when it runs
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = SRC;
+    s.referrerPolicy = 'no-referrer';
+    document.head.appendChild(s);
+  }, deps);
+}
+
+export function RegimeMap({ product = 'online_casino', lang = 'en', region = 'world', theme = 'light' }) {
+  useRegimeMapLoader([product, lang, region, theme]);
+  const extra = product !== 'online_casino' ? { 'data-product': product } : {};
+  return (
+    &lt;&gt;
+      {/* a new key makes React replace the element when an option changes */}
+      &lt;div key={`${product}-${lang}-${region}-${theme}`} data-regimemap="map" {...extra}
+           data-lang={lang} data-region={region} data-theme={theme}&gt;
+        Interactive map: gambling regulation by country.
+      &lt;/div&gt;
+      &lt;p&gt;Map: &lt;a href="https://regimemap.com/gambling-regulation-map/"&gt;Regime Map&lt;/a&gt;&lt;/p&gt;
+    &lt;/&gt;
+  );
+}</code></pre></div>
+</article></div>
+</div></main>
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-in">
+      <div><a class="brand" href="../"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><defs><pattern id="mk5" patternUnits="userSpaceOnUse" width="3.6" height="3.6" patternTransform="rotate(45)"><rect class="mh1" width="3.6" height="3.6"/><rect class="mh2" x="2.2" width="1.4" height="3.6"/></pattern></defs><polygon class="m1" points="2,7 11,4 11,26 2,29"/><polygon points="11,4 21,7 21,29 11,26" fill="url(#mk5)"/><polygon class="m3" points="21,7 30,4 30,26 21,29"/></svg><b>Regime Map</b><span>Embeds</span></a><p class="ft-blurb">Free embeds from Regime Map: a world map of gambling regulation and a card for each country.</p></div>
+      <nav aria-labelledby="f1"><h2 id="f1">Embeds</h2><ul><li><a href="../configurator/">Configurator</a></li><li><a href="../how-it-works/">How it works</a></li><li><a href="../accessibility/">Accessibility</a></li><li><a href="../languages/">Languages</a></li><li><a href="../use-cases/">Use cases</a></li></ul></nav>
+      <nav aria-labelledby="f2"><h2 id="f2">Elsewhere</h2><ul><li><a href="https://github.com/regimemap/regimemap-embed-examples">GitHub repository ↗</a></li><li><a href="https://dev.to/regimemap">dev.to posts ↗</a></li><li><a href="https://huggingface.co/spaces/regimemap/embeds">Hugging Face demo ↗</a></li><li><a href="https://regimemap.com/">regimemap.com ↗</a></li></ul></nav>
+      <nav aria-labelledby="f3"><h2 id="f3">Terms</h2><ul><li><a href="../terms/">Embed terms</a></li><li><a href="https://regimemap.com/data-api/#embed-terms">Binding terms ↗</a></li><li><a href="mailto:support@regimemap.com">support@regimemap.com</a></li></ul></nav>
+    </div>
+    <div class="ft-legal"><p>Not legal advice. The embeds show Regime Map’s editorial reading of official sources on the date shown.</p><p>This site sets no cookies and loads nothing from other websites except the embeds from regimemap.com.</p></div>
+  </div>
+</footer>
+</body>
+</html>
