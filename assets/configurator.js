@@ -74,13 +74,15 @@
     pv.appendChild(cr);
     scan();
   }
-  // A card iframe has a fixed height: render the card at 360 px, out of sight, and read it (as on /data-api/).
+  // A card iframe has a fixed height: render the card at 360 px, hidden, and read it (as on /data-api/).
   function measure(p) {
     if (s.kind !== 'country' || s.code !== 'iframe') return;
     var seq = ++measureSeq, box = $('cfg-measure');
     if (!box) {
       box = d.createElement('div'); box.id = 'cfg-measure'; box.setAttribute('aria-hidden', 'true');
-      box.style.position = 'absolute'; box.style.left = '-10000px'; box.style.top = '0'; box.style.width = '360px'; box.style.visibility = 'hidden';
+      // In the viewport (fixed, hidden, behind the page): the loader only renders embeds that intersect it.
+      box.style.position = 'fixed'; box.style.left = '0'; box.style.top = '0'; box.style.width = '360px'; box.style.visibility = 'hidden';
+      box.style.pointerEvents = 'none'; box.style.zIndex = '-1';
       d.body.appendChild(box);
     }
     box.innerHTML = '';
