@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessibility · Regime Map Embeds</title>
+<meta name="description" content="The Regime Map embeds work with a keyboard, a screen reader, touch, reduced motion and Windows contrast themes, where every status keeps its own texture.">
+<link rel="canonical" href="https://regimemap.github.io/accessibility/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Regime Map Embeds">
+<meta property="og:title" content="Accessibility · Regime Map Embeds">
+<meta property="og:description" content="The Regime Map embeds work with a keyboard, a screen reader, touch, reduced motion and Windows contrast themes, where every status keeps its own texture.">
+<meta property="og:url" content="https://regimemap.github.io/accessibility/">
+<meta property="og:image" content="https://regimemap.github.io/assets/og/og-accessibility.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f6f6f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121417" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/plex-sans-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/site.css?v=20261107">
+<script src="../assets/site.js?v=20261107" defer></script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebPage",
+ "name": "Accessibility",
+ "url": "https://regimemap.github.io/accessibility/",
+ "inLanguage": "en",
+ "publisher": {
+  "@type": "Organization",
+  "name": "Regime Map",
+  "url": "https://regimemap.com/"
+ }
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="hd"><div class="stripe" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="wrap hd-in">
+    <a class="brand" href="../"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><defs><pattern id="mk6" patternUnits="userSpaceOnUse" width="3.6" height="3.6" patternTransform="rotate(45)"><rect class="mh1" width="3.6" height="3.6"/><rect class="mh2" x="2.2" width="1.4" height="3.6"/></pattern></defs><polygon class="m1" points="2,7 11,4 11,26 2,29"/><polygon points="11,4 21,7 21,29 11,26" fill="url(#mk6)"/><polygon class="m3" points="21,7 30,4 30,26 21,29"/></svg><b>Regime Map</b><span>Embeds</span></a>
+    <nav aria-label="Main"><ul class="nav"><li><a href="../configurator/">Configurator</a></li><li><a href="../how-it-works/">How it works</a></li><li><a href="../accessibility/" aria-current="page">Accessibility</a></li><li><a href="../languages/">Languages</a></li><li><a href="../use-cases/">Use cases</a></li></ul></nav>
+    <ul class="hd-ext"><li><a href="https://github.com/regimemap/regimemap-embed-examples">GitHub ↗</a></li><li><a href="https://regimemap.com/">regimemap.com ↗</a></li></ul>
+    <details class="menu"><summary>Menu</summary><nav class="menu-panel" aria-label="Main (mobile)"><ul><li><a href="../">Home</a></li><li><a href="../configurator/">Configurator</a></li><li><a href="../how-it-works/">How it works</a></li><li><a href="../accessibility/" aria-current="page">Accessibility</a></li><li><a href="../languages/">Languages</a></li><li><a href="../use-cases/">Use cases</a></li></ul><ul><li><a href="https://github.com/regimemap/regimemap-embed-examples">GitHub ↗</a></li><li><a href="https://regimemap.com/">regimemap.com ↗</a></li></ul></nav></details>
+  </div>
+</header>
+<main id="main"><div class="wrap">
+<header class="page-h"><span class="label">Accessibility</span><h1>A map everyone can read</h1><p>The table view, full keyboard support, 44 px touch targets, reduced motion, and statuses that keep their own texture in Windows contrast themes.</p></header>
+<div class="doc"><nav class="toc" aria-labelledby="toc-h"><span class="label" id="toc-h">On this page</span><ol><li><a href="#table">The table view</a></li><li><a href="#keyboard">Keyboard</a></li><li><a href="#sr">Screen readers</a></li><li><a href="#touch">Touch and motion</a></li><li><a href="#contrast">Windows contrast themes</a></li></ol></nav>
+<article class="prose">
+<h2 id="table">The table view</h2><p>“View as table” shows the same data as the map for the product on screen: country, status and a link to each dossier. The rows are sorted in the embed language’s own alphabetical order, so Norwegian puts Å last and Russian follows the Cyrillic alphabet. It is the accessible version of the map, not an afterthought.</p><figure class="pair"><div class="fig"><img src="../assets/img/map-table.webp" width="1280" height="1074" alt="The map’s table view: country, status and a dossier link, sorted A to Z" loading="lazy" decoding="async"></div><div class="fig"><img src="../assets/img/gif-map-table.gif" width="800" height="576" alt="Switching from the map to the table view and back" loading="lazy" decoding="async"></div></figure><h2 id="keyboard">Keyboard</h2><div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Key</th><th scope="col">What it does</th></tr></thead><tbody><tr><td><kbd>Tab</kbd></td><td>Moves between the embed’s controls. The product tabs are one stop, the map is one stop, and “Find a country” is one stop.</td></tr><tr><td><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></td><td>On the map: move from country to country. On the product tabs: move between the five products.</td></tr><tr><td><kbd>Home</kbd> <kbd>End</kbd></td><td>On the map: jump to the first or last country</td></tr><tr><td><kbd>Enter</kbd></td><td>On the map: open the country’s dossier link. In “Find a country”: pick the match, zoom to the country and open its details.</td></tr><tr><td><kbd>Esc</kbd></td><td>Close the country’s details</td></tr><tr><td><kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd></td><td>Zoom in, zoom out, reset, while the map has focus</td></tr></tbody></table></div><p>Details open on hover and on keyboard focus alike. The mouse wheel and pinch gestures are left to the host page, so the page scrolls and zooms as the reader expects.</p><h2 id="sr">Screen readers</h2><p>The drawing itself is hidden from screen readers. In its place the map carries a text summary for the product on screen, for example “Online casino status in 100 countries: 48 licensed regime, …”, and its name says which product is shown, in all 39 languages. The table view and the country card give the full detail as text, with the dossier links.</p><h2 id="touch">Touch and motion</h2><ul><li>Every target is at least 44 px, small-state dots included: their tap area is larger than the dot.</li><li>On touch screens and in narrow embeds, a tap opens the country in a sheet at the bottom of the embed instead of a tooltip, so the map stays in view.</li><li>With <code>prefers-reduced-motion</code>, the embed turns its animations off.</li></ul><h2 id="contrast">Windows contrast themes</h2><p>In a Windows contrast theme, the browser repaints the page with a handful of the reader’s system colours. A map that relies on colour alone loses its key there: the legend’s swatches go blank, and nothing says which colour means which status. Here every status keeps its own texture, drawn in the theme’s colours.</p><div class="tbl-wrap"><table class="tbl"><thead><tr><th scope="col">Status</th><th scope="col">Texture in a contrast theme</th></tr></thead><tbody><tr><td>Licensed regime</td><td>solid</td></tr><tr><td>State monopoly</td><td>dots</td></tr><tr><td>Varies by region</td><td>diagonal hatch</td></tr><tr><td>Prohibited</td><td>cross-hatch</td></tr><tr><td>No licensing regime</td><td>horizontal lines</td></tr><tr><td>Not assessed</td><td>vertical lines</td></tr><tr><td>Not covered yet</td><td>empty, with a dashed outline</td></tr></tbody></table></div><p>The textures are drawn only in the theme’s own system colours, so they invert correctly in dark and light themes. Small-state dots grow and get a halo, a lawful exception keeps its asterisk pattern, and keyboard focus and the selected country use the system highlight colour. Nothing needs switching on: the embed follows the reader’s system, in the script and iframe forms alike, and the normal look is unchanged.</p><p>Who sees this: readers who turn on a contrast theme in Windows 10 or 11 (Settings → Accessibility → Contrast themes) in Edge, Chrome or Firefox, or who set Firefox to override page colours. We tested it in Chromium’s forced-colours emulation, in its light and dark palettes; it has not yet been tested on a real Windows machine.</p><figure class="wide fig"><img src="../assets/img/fc-compare-map.webp" width="1600" height="621" alt="The world map in normal colours and in a Windows contrast theme, where each status has its own texture" loading="lazy" decoding="async"><figcaption>Normal colours, then a contrast theme.</figcaption></figure><figure class="wide fig"><img src="../assets/img/fc-compare-legend.webp" width="1600" height="476" alt="The legend three ways: light, dark and a contrast theme" loading="lazy" decoding="async"><figcaption>The legend: light, dark, contrast theme.</figcaption></figure><figure class="wide fig"><img src="../assets/img/fc-compare-card.webp" width="1600" height="482" alt="The Japan country card three ways" loading="lazy" decoding="async"><figcaption>The Japan card, with its lawful exception, three ways.</figcaption></figure><figure class="fig"><img src="../assets/img/gif-forced-colors.gif" width="800" height="576" alt="Switching between normal colours and a contrast theme" loading="lazy" decoding="async"></figure></article></div>
+</div></main>
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft-in">
+      <div><a class="brand" href="../"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><defs><pattern id="mk7" patternUnits="userSpaceOnUse" width="3.6" height="3.6" patternTransform="rotate(45)"><rect class="mh1" width="3.6" height="3.6"/><rect class="mh2" x="2.2" width="1.4" height="3.6"/></pattern></defs><polygon class="m1" points="2,7 11,4 11,26 2,29"/><polygon points="11,4 21,7 21,29 11,26" fill="url(#mk7)"/><polygon class="m3" points="21,7 30,4 30,26 21,29"/></svg><b>Regime Map</b><span>Embeds</span></a><p class="ft-blurb">Free embeds from Regime Map: a world map of gambling regulation and a card for each country.</p></div>
+      <nav aria-labelledby="f1"><h2 id="f1">Embeds</h2><ul><li><a href="../configurator/">Configurator</a></li><li><a href="../how-it-works/">How it works</a></li><li><a href="../accessibility/">Accessibility</a></li><li><a href="../languages/">Languages</a></li><li><a href="../use-cases/">Use cases</a></li></ul></nav>
+      <nav aria-labelledby="f2"><h2 id="f2">Elsewhere</h2><ul><li><a href="https://github.com/regimemap/regimemap-embed-examples">GitHub repository ↗</a></li><li><a href="https://dev.to/regimemap">dev.to posts ↗</a></li><li><a href="https://huggingface.co/spaces/regimemap/embeds">Hugging Face demo ↗</a></li><li><a href="https://regimemap.com/">regimemap.com ↗</a></li></ul></nav>
+      <nav aria-labelledby="f3"><h2 id="f3">Terms</h2><ul><li><a href="../terms/">Embed terms</a></li><li><a href="https://regimemap.com/data-api/#embed-terms">Binding terms ↗</a></li><li><a href="mailto:support@regimemap.com">support@regimemap.com</a></li></ul></nav>
+    </div>
+    <div class="ft-legal"><p>Not legal advice. The embeds show Regime Map’s editorial reading of official sources on the date shown.</p><p>This site sets no cookies and loads nothing from other websites except the embeds from regimemap.com.</p></div>
+  </div>
+</footer>
+</body>
+</html>
